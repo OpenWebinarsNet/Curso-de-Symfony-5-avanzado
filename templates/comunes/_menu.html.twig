@@ -1,0 +1,61 @@
+{% set app_ruta = app.request.attributes.get('_route') %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{{ path('app_listado_tarea') }}">Tareas</a>
+  <button class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      {% if is_granted('ROLE_USER') %}
+        <li class="nav-item">
+          <a class="nav-link {{ 'tarea_new' == app_ruta ? 'active' }}"
+            href="{{ path('tarea_new') }}">
+            Crear
+          </a>
+        </li>
+      {% endif %}
+
+      {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item">
+          <a class="nav-link {{ 'user_index' == app_ruta ? 'active' }}"
+            href="{{ path('user_index') }}">
+            Usuarios
+          </a>
+        </li>
+      {% endif %}
+
+      {% if app.user %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path('app_logout') }}">
+            Cerrar sesión ({{ app.user.email }})
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+  {{
+    render(
+      controller(
+        'App\\Controller\\IdiomaController::index',
+        {
+          ruta: app_ruta
+        }
+      )
+    )
+  }}
+  {% if app.user and app.user.imagen %}
+    <img src="{{ asset('usuarios/' ~ app.user.imagen) }}" alt="Foto perfil" />
+    <img src="{{ asset('usuarios/' ~ app.user.imagen)|imagine_filter(
+        'pequena'
+      ) }}"
+      alt="Foto perfil pequeña" />
+  {% endif %}
+  <img src="{{ asset('build/images/symfony.jpg') }}" alt="Symfony" />
+</nav>

@@ -1,0 +1,11 @@
+liip_imagine:
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: "gd"
+    filter_sets:
+        pequena:
+            quality: 50 
+            filters:
+                thumbnail:
+                    size: [30, 30]
+                    mode: outbound
+        

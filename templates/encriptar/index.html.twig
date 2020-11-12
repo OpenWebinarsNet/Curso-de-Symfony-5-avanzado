@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EncriptarController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_desencriptar_twig', {'texto': nzo_encrypt(texto)}) }}">Desencriptar texto<a/><br>
+    Encriptado en twig: {{ nzo_encrypt(texto) }}<br>
+    Desencriptado en twig: {{ nzo_decrypt(nzo_encrypt(texto)) }}
+{% endblock %}
